@@ -1,5 +1,37 @@
 package org.openmrs.module.registrationcore.api.mpi.pixpdq;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openmrs.Location;
+import org.openmrs.Patient;
+import org.openmrs.PatientIdentifier;
+import org.openmrs.PatientIdentifierType;
+import org.openmrs.PersonAddress;
+import org.openmrs.PersonAttribute;
+import org.openmrs.PersonAttributeType;
+import org.openmrs.PersonName;
+import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.registrationcore.api.impl.RegistrationCoreProperties;
+import org.openmrs.module.registrationcore.api.mpi.common.MpiPatient;
+import org.openmrs.module.registrationcore.api.mpi.common.MpiProperties;
+import org.openmrs.module.registrationcore.api.mpi.openempi.PatientIdentifierMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.model.DataTypeException;
 import ca.uhn.hl7v2.model.Group;
@@ -14,37 +46,6 @@ import ca.uhn.hl7v2.model.v25.message.QBP_Q21;
 import ca.uhn.hl7v2.model.v25.segment.MSH;
 import ca.uhn.hl7v2.model.v25.segment.PID;
 import ca.uhn.hl7v2.util.Terser;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openmrs.Location;
-import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
-import org.openmrs.api.PatientService;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.PersonAddress;
-import org.openmrs.PersonAttribute;
-import org.openmrs.PersonAttributeType;
-import org.openmrs.PersonName;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.registrationcore.api.impl.RegistrationCoreProperties;
-import org.openmrs.module.registrationcore.api.mpi.common.MpiPatient;
-import org.openmrs.module.registrationcore.api.mpi.common.MpiProperties;
-import org.openmrs.module.registrationcore.api.mpi.openempi.PatientIdentifierMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
-import java.util.Set;
 
 public class PixPdqMessageUtil {
 	
@@ -415,9 +416,9 @@ public class PixPdqMessageUtil {
 		pid.getAdministrativeSex().setValue(patient.getGender());
 		
 		// Date of birth
-		if (patient.getBirthdateEstimated())
-			pid.getDateTimeOfBirth().getTime().setValue(new SimpleDateFormat("yyyy").format(patient.getBirthdate()));
-		else
+		//if (patient.getBirthdateEstimated())
+		//	pid.getDateTimeOfBirth().getTime().setValue(new SimpleDateFormat("yyyy").format(patient.getBirthdate()));
+		//else
 			pid.getDateTimeOfBirth().getTime().setValue(new SimpleDateFormat("yyyyMMdd").format(patient.getBirthdate()));
 		
 		PersonAddress pa = patient.getAddresses().iterator().next();
